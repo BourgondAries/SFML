@@ -190,6 +190,9 @@ GlContext::~GlContext()
     // Deactivate the context before killing it, unless we're inside Cleanup()
     if (sharedContext)
         setActive(false);
+
+    // Delete the thread local data
+    GlResource::releaseThreadResource();
 }
 
 
