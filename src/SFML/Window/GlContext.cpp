@@ -31,6 +31,7 @@
 #include <SFML/System/Lock.hpp>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Window/glext/glext.h>
+#include <SFML/Window/GlResource.hpp>
 #include <set>
 #include <cstdlib>
 #include <cassert>
@@ -98,12 +99,28 @@ namespace sf
 {
 namespace priv
 {
+
+    ////////////////////////////////////////////////////////////
+    class CleanUp
+    {
+        CleanUp(){}
+        ~CleanUp()
+        {
+            if (call)
+            {
+                clean();
+            }
+        }
+        bool call = true;
+    } m_cleanup;
+
 ////////////////////////////////////////////////////////////
 void GlContext::clean()
 {
     sf::Lock lock(internalContextsMutex);
 
     GlContext *ptr = getInternalContext();
+    ptr->call = false;
     delete ptr;
     internalContexts.erase(ptr);
 }
@@ -192,7 +209,7 @@ GlContext::~GlContext()
         setActive(false);
 
     // Delete the thread local data
-    GlResource::releaseThreadResource();
+    // GlResource::releaseThreadResource();
 }
 
 

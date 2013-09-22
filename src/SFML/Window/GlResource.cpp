@@ -83,7 +83,7 @@ void GlResource::ensureGlContext()
 }
 
 ////////////////////////////////////////////////////////////
-void releaseThreadResource()
+void GlResource::releaseThreadResource()
 {
     priv::GlContext::clean();
 }
