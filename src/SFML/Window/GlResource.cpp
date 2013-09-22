@@ -85,7 +85,7 @@ void GlResource::ensureGlContext()
 ////////////////////////////////////////////////////////////
 void releaseThreadResource()
 {
-    GlContext::clean();
+    priv::GlContext::clean();
 }
 
 } // namespace sf
